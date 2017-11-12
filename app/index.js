@@ -1,41 +1,36 @@
-// import antd from 'antd';
+// react 库
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
-// 这个库是用来生成 MongoId 的
-const MongoId = require('mongoid-js').MongoId;
-var idFactory = new MongoId(/*systemId:*/ 'local');
 
 // 这个是 antd 的库
 import { Upload, Icon, message } from 'antd';
 const Dragger = Upload.Dragger;
 
-// 定义这个项目的 baseurl
-const baseurl = '/lc';
+import { getFilesPath } from './files';
+
+var times = 0;
 
 const props = {
   name: 'file',
   multiple: true,
-  // showUploadList: false,
+  showUploadList: false,
   action: '//localhost:9000/',
   beforeUpload: (file, fileList) => {
-    console.log('fileList', fileList);
+    // console.log('fileList', fileList);
+    if (times === 1) {
+      // console.log('1 次了！');
+      return false;
+    }
+    times += 1
+    // 做事情
+    getFilesPath(fileList);
+    return false;
   },
 
-  customRequest: (e) => {
-    console.log('customRequest', e);
-  },
-  onChange(info) {
-    const status = info.file.status;
-    if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`);
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
+  // customRequest: (e) => {
+  //   console.log('customRequest', e);
+  // },
+
 };
 
 
@@ -43,34 +38,6 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-
-    this.addDropEvent = this.addDropEvent.bind(this)
-  }
-
-  addDropEvent() {
-
-    const holder = document.getElementById('id-drag-image')
-    holder.ondragover = () => {
-      return false;
-    }
-    holder.ondragleave = holder.ondragend = () => {
-      return false;
-    }
-    holder.ondrop = (e) => {
-      e.preventDefault()
-      for (let f of e.dataTransfer.files) {
-        console.log('File(s) you dragged here: ', f.path)
-        let image_id = idFactory.fetch()
-        let path = f.path
-        let body = JSON.stringify({path})
-        console.log('image_id', image_id);
-        // ajax('POST', baseurl + `/image/${image_id}`, body, function (data) {
-        //   console.log('data', data);
-        // })
-      }
-      return false;
-    }
-
   }
 
   render() {
