@@ -7,7 +7,9 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.7",
-    "electron": "^1.6.11",
+    "electron": "^1.7.9",
+    "electron-packager": "^9.1.0",
+    "electron-winstaller": "^2.6.3",
     "style-loader": "^0.19.0",
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.4"
@@ -63,6 +65,10 @@
   "main": "main.js",
   "author": "WenqiXie <szqq602@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "electron",
+    "react"
+  ],
   "dependencies": {
     "antd": "^2.13.9",
     "express": "^4.16.2",
