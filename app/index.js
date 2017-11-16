@@ -52,7 +52,7 @@ class App extends Component {
 
   render() {
     return (
-      <div style={{ marginTop: 16, height: 180 }}>
+      <div style={{ marginTop: 16, height: 480 }}>
         <Dragger {...props}>
           <p className="ant-upload-drag-icon">
             <Icon type="inbox" />

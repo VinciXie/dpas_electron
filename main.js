@@ -8,9 +8,7 @@ const proxy = require('express-http-proxy');
 const express = require('express');
 const server = express();
 
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
-
+const multer  = require('multer');
 
 server.use(express.static(path.resolve(__dirname, './app')))
 // server.use('/pi/*', proxy('http://127.0.0.1:9001', {
@@ -21,6 +19,18 @@ server.use(express.static(path.resolve(__dirname, './app')))
 //     return req.baseUrl;
 //   }
 // }))
+
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './tmp')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + file.originalname )
+  }
+})
+
+const upload = multer({ storage });
 
 server.post('/profile', upload.single('avatar'), function (req, res, next) {
   // req.file is the `avatar` file
