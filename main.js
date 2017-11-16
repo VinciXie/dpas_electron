@@ -8,6 +8,10 @@ const proxy = require('express-http-proxy');
 const express = require('express');
 const server = express();
 
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
+
 server.use(express.static(path.resolve(__dirname, './app')))
 // server.use('/pi/*', proxy('http://127.0.0.1:9001', {
 // server.use('/pi/*', proxy('http://pi.awkint.com/', {
@@ -18,6 +22,29 @@ server.use(express.static(path.resolve(__dirname, './app')))
 //   }
 // }))
 
+server.post('/profile', upload.single('avatar'), function (req, res, next) {
+  // req.file is the `avatar` file
+  // req.body will hold the text fields, if there were any
+  console.log('req.file', req.file);
+  console.log('req.file', req.file);
+  res.send('文件上传成功');
+})
+
+server.post('/photos/upload', upload.array('photos', 12), function (req, res, next) {
+  // req.files is array of `photos` files
+  // req.body will contain the text fields, if there were any
+})
+
+var cpUpload = upload.fields([{ name: 'avatar', maxCount: 1 }, { name: 'gallery', maxCount: 8 }])
+server.post('/cool-profile', cpUpload, function (req, res, next) {
+  // req.files is an object (String -> Array) where fieldname is the key, and the value is array of files
+  //
+  // e.g.
+  //  req.files['avatar'][0] -> File
+  //  req.files['gallery'] -> Array
+  //
+  // req.body will contain the text fields, if there were any
+})
 
 const PORT = 9000;
 const hostname = "localhost";

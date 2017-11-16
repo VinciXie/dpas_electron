@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const CommonsChunkPlugin = require('webpack/libn/optimize/CommonsChunkPlugin');
+const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 
 const config = {
   devtool: 'inline-source-map',
