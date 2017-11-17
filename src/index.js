@@ -21,7 +21,7 @@ const props = {
       // console.log('1 次了！');
       return false;
     }
-    times += 1
+    times += 1;
     // 做事情
     // getFilesPath(fileList);
     // return false;
@@ -52,7 +52,7 @@ class App extends Component {
 
   render() {
     return (
-      <div style={{ marginTop: 16, height: 480 }}>
+      <div style={{ marginTop: 16, height: 680 }}>
         <Dragger {...props}>
           <p className="ant-upload-drag-icon">
             <Icon type="inbox" />

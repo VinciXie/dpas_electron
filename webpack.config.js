@@ -1,18 +1,24 @@
 const webpack = require('webpack');
 const path = require('path');
 const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const DashboardPlugin = require('webpack-dashboard/plugin');
+
+var port = 9000;
 
 const config = {
-  devtool: 'inline-source-map',
+  devtool: 'cheap-module-eval-source-map',
+
+  context: path.join(__dirname, 'src'),
 
   entry: {
-    local: './app/index.js',
-    vendor: ['react', 'react-dom']
+    local: './index.js',
+    // vendor: ['react', 'react-dom']
   },
 
   output: {
-    path: path.join(__dirname, 'app'),
-    filename: '[name].js',
+    path: path.join(__dirname, 'dist'),
+    filename: 'build/[name]-[hash:6].js',
   },
 
   module: {
@@ -50,17 +56,36 @@ const config = {
   //   'react-dom': 'react-dom',
   // },
 
+  resolve: {
+    modules: ["node_modules"],
+    mainFiles: ["index"]
+  },
+
   plugins: [
-    new CommonsChunkPlugin({
-      name: 'vendor',
+    // new CommonsChunkPlugin({
+    //   name: 'vendor',
+    // }),
+    new webpack.DllReferencePlugin({
+      context: __dirname,
+      manifest: require('./dll/manifest.json'),
     }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: "'development'"
       }
     }),
-  ]
-
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: 'index.html',
+      filename: 'index.html'
+    }),
+    // new DashboardPlugin({ port: port }),
+  ],
+  devServer: {
+    contentBase: path.join(__dirname, "dist"),
+    compress: true,
+    port: port,
+  }
 }
 
 
